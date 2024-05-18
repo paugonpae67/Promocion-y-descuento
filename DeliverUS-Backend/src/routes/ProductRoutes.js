@@ -1,12 +1,11 @@
 import * as ProductValidation from '../controllers/validation/ProductValidation.js'
 import ProductController from '../controllers/ProductController.js'
-import { Product, Restaurant } from '../models/models.js'
+import { Product } from '../models/models.js'
 import { handleFilesUpload } from '../middlewares/FileHandlerMiddleware.js'
 import { hasRole, isLoggedIn } from '../middlewares/AuthMiddleware.js'
 import { checkEntityExists } from '../middlewares/EntityMiddleware.js'
 import * as ProductMiddleware from '../middlewares/ProductMiddleware.js'
 import { handleValidation } from '../middlewares/ValidationHandlingMiddleware.js'
-import * as RestaurantMiddleware from '../middlewares/RestaurantMiddleware.js'
 
 const loadFileRoutes = (app) => {
   app.route('/products')
@@ -45,13 +44,11 @@ const loadFileRoutes = (app) => {
       ProductMiddleware.checkProductHasNotBeenOrdered,
       ProductController.destroy
     )
-  app.route('restaurants/:restaurantId/products/:productId')
+  app.route('products/:productId')
     .patch(
       isLoggedIn,
       hasRole('owner'),
-      checkEntityExists(Restaurant, 'restaurantId'),
       checkEntityExists(Product, 'productId'),
-      RestaurantMiddleware.checkRestaurantOwnership,
       ProductMiddleware.checkProductOwnership,
       ProductMiddleware.checkRestaurantDescuento,
       ProductController.changePromocion

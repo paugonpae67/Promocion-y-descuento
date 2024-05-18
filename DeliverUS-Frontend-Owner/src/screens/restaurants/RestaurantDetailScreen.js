@@ -60,7 +60,7 @@ export default function RestaurantDetailScreen ({ navigation, route }) {
         imageUri={item.image ? { uri: process.env.API_BASE_URL + '/' + item.image } : defaultProductImage}
         title={item.name}
       >
-        { route.params.descuento !== 0 && <TextRegular color = {'red'}>{route.descuento}% off</TextRegular>}
+        { route.params.descuento !== 0 && <TextRegular color = {'red'}>{route.params.descuento}% off</TextRegular>}
         <TextRegular numberOfLines={2}>{item.description}</TextRegular>
         <TextSemiBold textStyle={styles.price}>{item.price.toFixed(2)}€
           <View>
@@ -133,7 +133,7 @@ export default function RestaurantDetailScreen ({ navigation, route }) {
 
   const changeProductPromocionado = async (item) => {
     try {
-      await changePromocionado(route.params.id, item.id)
+      await changePromocionado(item.id)
       await fetchRestaurantDetail()
     } catch (error) {
       showMessage({

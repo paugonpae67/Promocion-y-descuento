@@ -39,7 +39,8 @@ const checkProductHasNotBeenOrdered = async (req, res, next) => {
 
 const checkRestaurantDescuento = async (req, res, next) => {
   try {
-    const restaurant = await Restaurant.findByPk({ where: { id: req.params.restaurantId } })
+    const product = await Product.findByPk(req.params.productId)
+    const restaurant = await Restaurant.findByPk({ where: { id: product.restaurantId } })
     if (restaurant.descuento > 0) {
       return next()
     }

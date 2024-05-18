@@ -19,7 +19,7 @@ function update (id, data) {
 function remove (id) {
   return destroy(`products/${id}`)
 }
-function changePromocionado (restaurantId, id) {
-  return patch(`restaurants/${restaurantId}/products/${id}`)
+function changePromocionado (id) {
+  return patch(`products/${id}`)
 }
 export { getDetail, getProductCategories, create, update, remove, changePromocionado }
