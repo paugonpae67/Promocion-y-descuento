@@ -44,7 +44,6 @@ const loadFileRoutes = (app) => {
       ProductMiddleware.checkProductHasNotBeenOrdered,
       ProductController.destroy
     )
-  app.route('products/:productId')
     .patch(
       isLoggedIn,
       hasRole('owner'),
