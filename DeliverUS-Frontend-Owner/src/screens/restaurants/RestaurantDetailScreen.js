@@ -58,13 +58,16 @@ export default function RestaurantDetailScreen ({ navigation, route }) {
     return (
       <ImageCard
         imageUri={item.image ? { uri: process.env.API_BASE_URL + '/' + item.image } : defaultProductImage}
-        title={item.name}
-      >
-        { route.params.descuento !== 0 && item.promocionado && <TextRegular color = {'red'}>{route.params.descuento}% off</TextRegular>}
-        <TextRegular numberOfLines={2}>{item.description}</TextRegular>
+        title={(
+          <View style = {styles.productDetailsContainer}>
+             <TextRegular style= {styles.title}>{item.name}</TextRegular>
+            {restaurant.descuento !== 0 && item.promocionado && <TextRegular textStyle = {styles.priceOff} numberOfLines={2}>({route.params.descuento}% off)</TextRegular>}
+        </View>)}
+       >
+       <TextRegular numberOfLines={2}>{item.description}</TextRegular>
         <TextSemiBold textStyle={styles.price}>{item.price.toFixed(2)}€
           <View>
-            {item.promocionado && <TextRegular color = {'red'}>Price promoted: {item.price - (item.price * route.descuento / 100)}€</TextRegular>}
+            {item.promocionado && <TextRegular textStyle={styles.priceOff }>Price promoted: {item.price - (item.price * restaurant.descuento / 100)}€</TextRegular>}
             </View>
         </TextSemiBold>
         {!item.availability &&
@@ -214,6 +217,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
+  productDetailsContainer: {
+    flexDirection: 'row',
+    marginBottom: 10
+  },
   row: {
     padding: 15,
     marginBottom: 5,
@@ -246,6 +253,12 @@ const styles = StyleSheet.create({
   emptyList: {
     textAlign: 'center',
     padding: 50
+  },
+  priceOff: {
+    fontSize: 16,
+    color: 'red',
+    alignSelf: 'center',
+    marginLeft: 5
   },
   button: {
     borderRadius: 8,
